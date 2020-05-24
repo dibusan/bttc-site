@@ -1,0 +1,29 @@
+<div class="container">
+
+
+  <h4>
+    Reserving for:
+    <strong>
+      <%= @timeblock.day_block.schedule_date.strftime('%A')%>
+    </strong>
+    at
+    <strong>
+      <%= @timeblock.block_start_time.strftime('%l:%M %P') %>
+    </strong>
+  </h4>
+
+  <h4>
+    Available Spots: <%= @timeblock.availability %>
+  </h4>
+
+  <%= form_tag timeblocks_update_path(@timeblock), method: :put do |form| %>
+    <div>
+      <strong>Number of People: </strong>
+      <%= select_tag :total_reservations, options_for_select([1, 2,3,4]) %><br>
+      <%= submit_tag 'Reserve' %>
+    </div>
+  <% end %>
+
+
+
+</div>
