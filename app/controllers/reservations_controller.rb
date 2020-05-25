@@ -7,7 +7,12 @@ class ReservationsController < ApplicationController
   end
 
   def new
+    unless user_signed_in?
+      redirect_to user_path
+      return
+    end
 
+    @timeblock = TimeBlock.find(params[:time_block_id])
   end
 
   def create

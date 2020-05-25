@@ -28,10 +28,10 @@
             <% @day_blocks.limit(7).each do |day_block| %>
               <td
                 class="
-              <%= color_by_availability(day_block.time_blocks[i].availability) %>
-              time_block
-            "
-                onclick="window.location = '<%= timeblocks_update_path(day_block.time_blocks[i]) %>'"
+                  <%= color_by_availability(day_block.time_blocks[i].availability) %>
+                  time-block
+                "
+                onclick="new_reservation_page(<%= day_block.time_blocks[i].id %>)"
               >
                 <%= day_block.time_blocks[i].availability %>
               </td>
@@ -47,3 +47,10 @@
 
 
 </div>
+
+<script>
+  var new_reservation_page = function(time_block_id){
+      console.log("Redir: " + time_block_id);
+      window.location = "/reservations/new?time_block_id="+time_block_id;
+  };
+</script>

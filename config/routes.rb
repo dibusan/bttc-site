@@ -13,12 +13,14 @@ Rails.application.routes.draw do
   get '/user' => "reservations#calendar", :as => :user_root
 
 
-  get 'dashboard/admin/:day_id' => 'reservations#dashboard', as: :admin_dashboard
-  get 'timeblocks/:id' => 'timeblocks#reserve', as: :timeblocks_update
-  put 'timeblocks/:id' => 'timeblocks#update'
+  # get 'timeblocks/:id' => 'timeblocks#reserve', as: :timeblocks_update
+  # put 'timeblocks/:id' => 'timeblocks#update'
 
-  get 'reservations' => 'reservations#index', as: :reservations
-  put 'reservations' => 'reservations#create'
-  delete 'reservations' => 'reservations#delete'
+  resources :reservations, only: [:index, :new, :create, :delete]
+  get 'dashboard/admin/:day_id' => 'reservations#dashboard', as: :admin_dashboard
+  # get 'reservations' => 'reservations#index', as: :reservations
+  # put 'reservations' => 'reservations#create'
+  # delete 'reservations' => 'reservations#delete'
+  # get 'reservations/new' => 'reservations#new', as: :reservations
 
 end
