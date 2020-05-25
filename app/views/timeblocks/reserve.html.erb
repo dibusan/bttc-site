@@ -16,10 +16,11 @@
     Available Spots: <%= @timeblock.availability %>
   </h4>
 
-  <%= form_tag timeblocks_update_path(@timeblock), method: :put do |form| %>
+  <%= form_tag create_reservations_path, method: :put do |form| %>
     <div>
       <strong>Number of People: </strong>
       <%= select_tag :total_reservations, options_for_select([1, 2,3,4]) %><br>
+      <%= hidden_field_tag :time_block_id, @timeblock.id %>
       <%= submit_tag 'Reserve' %>
     </div>
   <% end %>

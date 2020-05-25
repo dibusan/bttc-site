@@ -14,6 +14,9 @@ class TimeblocksController < ApplicationController
 
     timeblock_chain.each do |t_block|
       t_block.availability -= total_reservations
+      total_reservations.times do
+        t_block.users.push(current_user)
+      end
       t_block.save!
     end
     #

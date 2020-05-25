@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+</head>
+<body>
+<p>
+  New reservation created for <%= @user.name %>
+  <% if @total_guests > 1 %>
+    and <%= @total_guests - 1 %> guests
+  <% end %>
+  !</p>
+<p>
+  Reservation details<br>
+  --------------------------
+</p>
+<p>Date: <%= TimeBlock.last.block_start_time.strftime('%A, %B %d') %></p>
+<p>Time: <%= TimeBlock.last.block_start_time.strftime('%l:%M %P') %></p>
+<p>Party Size: <%= @total_guests %></p>
+
+<p>
+  Message:<br>
+  ----------
+</p>
+<p>TODO: Add IMPORTANT MESSAGE HERE</p>
+</body>
+</html>

@@ -1,0 +1,15 @@
+New reservation created for <%= @user.name %>
+<% if @total_guests > 1 %>
+  and <%= @total_guests - 1%> guests
+<% end %>
+===============================================
+
+Reservation details:
+--------------------------
+
+Date: <%= TimeBlock.last.block_start_time.strftime('%A, %B %d') %>
+Time: <%= TimeBlock.last.block_start_time.strftime('%l:%M %P') %>
+Party Size: <%= @total_guests %>
+
+Message:
+TODO: Add IMPORTANT MESSAGE HERE

@@ -1,5 +1,5 @@
 class ReservationsController < ApplicationController
-  helper_method :color_by_availability, :fulltime
+  helper_method :color_by_availability, :fulltime, :compress_users
 
   # enum availability_group: [:empty, :few, :many]
   def index
@@ -10,25 +10,43 @@ class ReservationsController < ApplicationController
 
   end
 
-  def reserve
-    # today = DateTime.now.beginning_of_day
-    # 10.times do
-    #   dayblock = DayBlock.create!(schedule_date: today)
-    #   timeblock = dayblock.schedule_date + 8.hours
-    #
-    #   48.times do
-    #     dayblock.time_blocks.create!(
-    #       block_start_time: timeblock,
-    #       availability: 24
-    #     )
-    #
-    #     timeblock += 15.minutes
-    #   end
-    #
-    #   today += 1.day
-    # end
+  def create
+    @timeblock = TimeBlock.find(params[:time_block_id])
+    total_reservations = params[:total_reservations].to_i
+
+    @timeblock.availability -= total_reservations
+    total_reservations.times do
+      @timeblock.users.push(current_user)
+    end
+
+    if @timeblock.save!
+      ReservationMailer.new_reservation_email(
+        current_user, @timeblock, total_reservations
+      ).deliver_now
+
+      flash[:success] = "Reservation Created!"
+    else
+      flash.now[:error] = "Failed to make reservation."
+    end
+
+    redirect_to root_path
   end
 
+  def dashboard
+    @day_block = DayBlock.find(params[:day_id])
+    @time_blocks = @day_block.time_blocks
+  end
+
+  # --- Helpers ---
+  protected
+
+  def compress_users(users)
+    hash = Hash.new(0)
+    users.each do |user|
+      hash[user] += 1
+    end
+    hash
+  end
 
   def fulltime(created_at)
     created_at.to_s(:date)+" "+created_at.to_s(:time).gsub(/^0/,'').downcase

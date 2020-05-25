@@ -2,6 +2,10 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+.time-marker {
+  background: rgba(17, 48, 48, 0.4) !important;
+}
+
 .time_block:hover {
   opacity: .7;
 }

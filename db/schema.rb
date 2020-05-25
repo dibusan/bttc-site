@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200523171952) do
+ActiveRecord::Schema.define(version: 20200524225949) do
 
   create_table "day_blocks", force: :cascade do |t|
     t.datetime "schedule_date"
@@ -25,6 +25,13 @@ ActiveRecord::Schema.define(version: 20200523171952) do
     t.datetime "updated_at",       null: false
     t.integer  "day_block_id"
     t.index ["day_block_id"], name: "index_time_blocks_on_day_block_id"
+  end
+
+  create_table "time_blocks_users", id: false, force: :cascade do |t|
+    t.integer "user_id",       null: false
+    t.integer "time_block_id", null: false
+    t.index ["time_block_id", "user_id"], name: "index_time_blocks_users_on_time_block_id_and_user_id"
+    t.index ["user_id", "time_block_id"], name: "index_time_blocks_users_on_user_id_and_time_block_id"
   end
 
   create_table "users", force: :cascade do |t|

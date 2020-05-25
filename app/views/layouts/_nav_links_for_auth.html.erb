@@ -7,4 +7,6 @@
 <% end %>
 <% if user_signed_in? %>
   <li><%= link_to 'Users', users_path %></li>
+  <li><%= link_to 'Manage dashboard', admin_dashboard_path(current_dayblock_id)
+  %></li>
 <% end %>
