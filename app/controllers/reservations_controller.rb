@@ -2,7 +2,7 @@ class ReservationsController < ApplicationController
   helper_method :color_by_availability, :fulltime, :compress_users
 
   # enum availability_group: [:empty, :few, :many]
-  def index
+  def calendar
     @day_blocks = DayBlock.all.limit(10)
   end
 
@@ -37,6 +37,9 @@ class ReservationsController < ApplicationController
     @time_blocks = @day_block.time_blocks
   end
 
+  def index
+    @timeblocks = current_user.time_blocks.order(block_start_time: :desc).uniq
+  end
   # --- Helpers ---
   protected
 

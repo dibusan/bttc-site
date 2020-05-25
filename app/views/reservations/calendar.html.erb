@@ -1,0 +1,49 @@
+<!--<table class=" table table-striped" data-sort-name="name" data-sort-order="desc">-->
+<div class="container">
+  <div class="row calendar-container">
+    <div class="col-sm-2"></div>
+    <div class="col-sm-8 table-wrapper-scroll-y my-custom-scrollbar">
+      <!--<table class=" table table-striped" data-sort-name="name" data-sort-order="desc">-->
+
+      <table class=" table table-striped table-bordered">
+        <% @day_blocks %>
+        <thead>
+        <tr>
+          <th> Time </th>
+          <% @day_blocks.limit(7).each do |day_block| %>
+            <th> <%= day_block.schedule_date.strftime('%A') %>
+            </th>
+          <% end %>
+        </tr>
+        </thead>
+
+        <tbody>
+        <% @day_blocks.first.time_blocks.count.times do |i| %>
+          <tr>
+            <td>
+              <%= (
+                  DateTime.now.beginning_of_day + 8.hours + (i*2).hours
+                  ).strftime('%l:%M %P') %>
+            </td>
+            <% @day_blocks.limit(7).each do |day_block| %>
+              <td
+                class="
+              <%= color_by_availability(day_block.time_blocks[i].availability) %>
+              time_block
+            "
+                onclick="window.location = '<%= timeblocks_update_path(day_block.time_blocks[i]) %>'"
+              >
+                <%= day_block.time_blocks[i].availability %>
+              </td>
+            <% end %>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+
+    </div>
+    <div class="col-sm-2"></div>
+  </div>
+
+
+</div>

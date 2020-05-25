@@ -3,6 +3,10 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
   helper_method :current_dayblock_id
 
+  def after_sign_in_path_for(resource)
+    root_path
+  end
+
   protected
 
   def configure_permitted_parameters

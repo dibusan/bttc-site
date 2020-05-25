@@ -1,13 +1,23 @@
 Rails.application.routes.draw do
-  root to: 'reservations#index'
-  devise_for :users
+  root to: 'reservations#calendar'
+  devise_for :users, skip: [:sessions]
+
+  devise_scope :user do
+    get 'signin', to: 'devise/sessions#new', as: :new_user_session
+    post 'signin', to: 'devise/sessions#create', as: :user_session
+    delete 'signin', to: 'devise/sessions#destroy', as: :destroy_user_session
+  end
+
   resources :users
-  resources :reservations
+
+  get '/user' => "reservations#calendar", :as => :user_root
+
 
   get 'dashboard/admin/:day_id' => 'reservations#dashboard', as: :admin_dashboard
   get 'timeblocks/:id' => 'timeblocks#reserve', as: :timeblocks_update
   put 'timeblocks/:id' => 'timeblocks#update'
-  put 'reservations' => 'reservations#create', as: :create_reservations
 
+  get 'reservations' => 'reservations#index', as: :reservations
+  put 'reservations' => 'reservations#create'
 
 end
