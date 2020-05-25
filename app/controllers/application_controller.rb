@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_action :configure_permitted_parameters, if: :devise_controller?
-  helper_method :current_dayblock_id
+  helper_method :current_dayblock_id, :club_hours_on, :club_reservation_time
 
   def after_sign_in_path_for(resource)
     root_path
@@ -16,5 +16,14 @@ class ApplicationController < ActionController::Base
 
   def current_dayblock_id
     DayBlock.find_by(schedule_date: DateTime.now.beginning_of_day).id
+  end
+
+  def club_hours_on(day_name)
+    hours_hash = Rails.application.config.club_hours
+    hours_hash[day_name.downcase]
+  end
+
+  def club_reservation_time
+    Rails.application.config.club_table_reserve_duration
   end
 end

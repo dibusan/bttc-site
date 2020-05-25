@@ -3,12 +3,24 @@ class ReservationsController < ApplicationController
 
   # enum availability_group: [:empty, :few, :many]
   def calendar
-    @day_blocks = DayBlock.all.limit(10)
+    start_date = params[:start_date] || DateTime.now.beginning_of_day
+    start_date = start_date.to_date if start_date .instance_of? String
+
+    day_count = DayBlock.where('schedule_date >= ?', start_date).count
+
+    missing = 7 - day_count
+    need_date = DayBlock.last.nil? ? start_date : DayBlock.last.schedule_date + 1.day
+    while missing > 0
+      DayBlock.create_and_populate need_date
+      need_date += 1.day
+      missing -= 1
+    end
+    @day_blocks = DayBlock.where('schedule_date >= ?', start_date).limit(7)
   end
 
   def new
     unless user_signed_in?
-      redirect_to user_path
+      redirect_to new_user_session_path
       return
     end
 

@@ -3,14 +3,37 @@
   <div class="row calendar-container">
     <div class="col-sm-2"></div>
     <div class="col-sm-8 table-wrapper-scroll-y my-custom-scrollbar">
-      <!--<table class=" table table-striped" data-sort-name="name" data-sort-order="desc">-->
+      <div class="row">
+        <div class="col-sm-3">
+          <%= button_to '<',
+                        calendar_path,
+                        method: :get,
+                        params: { start_date: DateTime.now.beginning_of_day - 7.days }
+          %>
+        </div>
+        <div class="col-sm-5">
+          Week of
+          <%= @day_blocks.first.schedule_date.strftime('%B %d') %> -
+          <%= @day_blocks.last.schedule_date.strftime('%B %d') %>
+
+        </div>
+        <div class="col-sm-3">
+          <%= button_to '>',
+                        calendar_path,
+                        method: :get,
+                        params: { start_date: DateTime.now.beginning_of_day + 7.days }
+          %>
+        </div>
+
+      </div>
+
 
       <table class=" table table-striped table-bordered">
         <% @day_blocks %>
         <thead>
         <tr>
           <th> Time </th>
-          <% @day_blocks.limit(7).each do |day_block| %>
+          <% @day_blocks.each do |day_block| %>
             <th> <%= day_block.schedule_date.strftime('%A') %>
             </th>
           <% end %>
@@ -22,10 +45,10 @@
           <tr>
             <td>
               <%= (
-                  DateTime.now.beginning_of_day + 8.hours + (i*2).hours
+                  @day_blocks.first.time_blocks[i].block_start_time
               ).strftime('%l:%M %P') %>
             </td>
-            <% @day_blocks.limit(7).each do |day_block| %>
+            <% @day_blocks.each do |day_block| %>
               <td
                 class="
                   <%= color_by_availability(day_block.time_blocks[i]) %>

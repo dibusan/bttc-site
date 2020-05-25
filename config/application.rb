@@ -23,5 +23,22 @@ module RailsDevise
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
+
+    am_8 = DateTime.now.beginning_of_day + 8.hours
+    pm_8 = DateTime.now.beginning_of_day + 20.hours
+
+    config.club_hours = {
+      monday: { start: am_8, end: pm_8 },
+      tuesday: { start: am_8, end: pm_8 },
+      wednesday: { start: am_8, end: pm_8 },
+      thursday: { start: am_8, end: pm_8 },
+      friday: { start: am_8, end: pm_8 },
+      saturday: { start: am_8, end: pm_8 },
+      sunday: { start: am_8, end: pm_8 }
+    }
+
+    config.club_table_reserve_duration = 2.hours
+    config.club_max_availability = 24
+    config.time_zone = 'Eastern Time (US & Canada)'
   end
 end

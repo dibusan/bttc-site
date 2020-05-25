@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   root to: 'reservations#calendar'
+  get 'reservations/calendar' => 'reservations#calendar', as: :calendar
+
   devise_for :users, skip: [:sessions]
 
   devise_scope :user do
@@ -10,18 +12,9 @@ Rails.application.routes.draw do
 
   resources :users
 
-  get '/user' => "reservations#calendar", :as => :user_root
-
-
-  # get 'timeblocks/:id' => 'timeblocks#reserve', as: :timeblocks_update
-  # put 'timeblocks/:id' => 'timeblocks#update'
-
   resources :reservations, only: [:index, :new, :create]
 
   get 'dashboard/admin/:day_id' => 'reservations#dashboard', as: :admin_dashboard
   delete 'reservations' => 'reservations#delete'
-  # get 'reservations' => 'reservations#index', as: :reservations
-  # put 'reservations' => 'reservations#create'
-  # get 'reservations/new' => 'reservations#new', as: :reservations
 
 end
