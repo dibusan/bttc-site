@@ -32,6 +32,14 @@ class ReservationsController < ApplicationController
     redirect_to root_path
   end
 
+  def delete
+    @timeblock = TimeBlock.find(params[:time_block_id])
+    @user = User.find(params[:user_id])
+
+    @timeblock.users.delete(@user)
+    redirect_to :back
+  end
+
   def dashboard
     @day_block = DayBlock.find(params[:day_id])
     @time_blocks = @day_block.time_blocks

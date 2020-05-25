@@ -6,15 +6,28 @@
           <th>Date</th>
           <th>Time</th>
           <th>Spots Reserved</th>
+          <th></th>
         </tr>
       </thead>
 
       <tbody>
         <% @timeblocks.each do |t_block| %>
+          <% date_str = t_block.block_start_time.strftime('%A, %B %d') %>
+          <% time_str = t_block.block_start_time.strftime('%l:%M %P') %>
           <tr>
-            <td><%= t_block.block_start_time.strftime('%A, %B %d') %></td>
-            <td><%= t_block.block_start_time.strftime('%l:%M %P') %></td>
+            <td><%= date_str %></td>
+            <td><%= time_str %></td>
             <td><%= compress_users(t_block.users)[current_user] %></td>
+            <td>
+              <%= form_tag reservations_path, method: :delete do |form| %>
+                <%= hidden_field_tag :time_block_id, t_block.id %>
+                <%= hidden_field_tag :user_id, current_user.id %>
+                <%= submit_tag 'Cancel', data: {
+                    confirm:
+                      "Cancelling Reservation for #{date_str} at #{time_str} ?"
+                } %>
+              <% end %>
+            </td>
           </tr>
         <% end %>
       </tbody>

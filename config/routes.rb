@@ -19,5 +19,6 @@ Rails.application.routes.draw do
 
   get 'reservations' => 'reservations#index', as: :reservations
   put 'reservations' => 'reservations#create'
+  delete 'reservations' => 'reservations#delete'
 
 end
