@@ -19,7 +19,7 @@
   <%= form_tag reservations_path, method: :post do |form| %>
     <div>
       <strong>Number of People: </strong>
-      <%= select_tag :total_reservations, options_for_select([1, 2,3,4]) %><br>
+      <%= select_tag :total_reservations, options_for_select(@total_reservation_options) %><br>
       <%= hidden_field_tag :time_block_id, @timeblock.id %>
       <%= submit_tag 'Reserve' %>
     </div>

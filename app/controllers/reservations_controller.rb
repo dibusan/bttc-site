@@ -13,6 +13,13 @@ class ReservationsController < ApplicationController
     end
 
     @timeblock = TimeBlock.find(params[:time_block_id])
+
+    @total_reservation_options = [*1..[4, @timeblock.availability].min]
+
+    if @timeblock.availability <= 0
+      flash[:error] = "This block is full."
+      redirect_to :back
+    end
   end
 
   def create
@@ -41,7 +48,9 @@ class ReservationsController < ApplicationController
     @timeblock = TimeBlock.find(params[:time_block_id])
     @user = User.find(params[:user_id])
 
+    @timeblock.availability += compress_users(@timeblock.users)[@user]
     @timeblock.users.delete(@user)
+    @timeblock.save
     redirect_to :back
   end
 
