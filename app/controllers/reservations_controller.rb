@@ -77,7 +77,12 @@ class ReservationsController < ApplicationController
     created_at.to_s(:date)+" "+created_at.to_s(:time).gsub(/^0/,'').downcase
   end
 
-  def color_by_availability(total_available)
+  def color_by_availability(time_block)
+    if time_block.users.include? current_user
+      return "users-reserved"
+    end
+
+    total_available = time_block.availability
     # total_available = rand(total_available)
     if total_available <= 0
       # "C82538"

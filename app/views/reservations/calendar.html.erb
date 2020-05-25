@@ -23,12 +23,12 @@
             <td>
               <%= (
                   DateTime.now.beginning_of_day + 8.hours + (i*2).hours
-                  ).strftime('%l:%M %P') %>
+              ).strftime('%l:%M %P') %>
             </td>
             <% @day_blocks.limit(7).each do |day_block| %>
               <td
                 class="
-                  <%= color_by_availability(day_block.time_blocks[i].availability) %>
+                  <%= color_by_availability(day_block.time_blocks[i]) %>
                   time-block
                 "
                 onclick="new_reservation_page(<%= day_block.time_blocks[i].id %>)"
