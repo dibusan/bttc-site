@@ -11,8 +11,9 @@ class DayBlock < ApplicationRecord
 
     club_hours = Rails.application.config.club_hours[day_name.downcase.to_sym]
 
-    tmp_time = club_hours[:start]
-    while tmp_time < club_hours[:end]
+    tmp_time = d_block.schedule_date + (club_hours[:start] - club_hours[:start].beginning_of_day).day
+    end_time = d_block.schedule_date + (club_hours[:end] - club_hours[:end].beginning_of_day).day
+    while tmp_time < end_time
       d_block.time_blocks.create!(
         block_start_time: tmp_time,
         availability: Rails.application.config.club_max_availability

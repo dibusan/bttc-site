@@ -72,7 +72,10 @@ class ReservationsController < ApplicationController
   end
 
   def index
-    @timeblocks = current_user.time_blocks.order(block_start_time: :desc).uniq
+    @timeblocks = current_user
+                    .time_blocks
+                    .order(block_start_time: :asc)
+                    .uniq
   end
   # --- Helpers ---
   protected

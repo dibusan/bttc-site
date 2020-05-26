@@ -12,7 +12,7 @@
 
       <tbody>
         <% @timeblocks.each do |t_block| %>
-          <% date_str = t_block.block_start_time.strftime('%A, %B %d') %>
+          <% date_str = t_block.day_block.schedule_date.strftime('%A, %B %d') %>
           <% time_str = t_block.block_start_time.strftime('%l:%M %P') %>
           <tr>
             <td><%= date_str %></td>
