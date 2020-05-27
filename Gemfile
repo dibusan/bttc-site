@@ -38,3 +38,7 @@ group :test do
   gem 'launchy'
   gem 'selenium-webdriver'
 end
+
+gem "cancancan", "~> 3.1"
+
+gem "sprockets-rails", "~> 3.2"

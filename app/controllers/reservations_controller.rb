@@ -1,7 +1,6 @@
 class ReservationsController < ApplicationController
   helper_method :color_by_availability, :fulltime, :compress_users
 
-  # enum availability_group: [:empty, :few, :many]
   def calendar
     start_date = params[:start_date] || DateTime.now.beginning_of_day
     start_date = start_date.to_date if start_date .instance_of? String
@@ -67,6 +66,7 @@ class ReservationsController < ApplicationController
   end
 
   def dashboard
+    @tab = params[:tab] || 'reservations'
     @day_block = DayBlock.find(params[:day_id])
     @time_blocks = @day_block.time_blocks
   end

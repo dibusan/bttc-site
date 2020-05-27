@@ -14,7 +14,7 @@ Rails.application.routes.draw do
 
   resources :reservations, only: [:index, :new, :create]
 
-  get 'dashboard/admin/:day_id' => 'reservations#dashboard', as: :admin_dashboard
+  get 'dashboard/admin' => 'reservations#dashboard', as: :admin_dashboard
   delete 'reservations' => 'reservations#delete'
 
 end
