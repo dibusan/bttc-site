@@ -18,6 +18,30 @@
     Please click to read and sign BTTC rules for COVID-19 period
 </div>
 
-<script>
+<div class="row">
+  <%= image_tag 'rules-1', class: "img-info col-md-6" %>
+  <%= image_tag 'rules-2', class: "img-info col-md-6" %>
+</div>
 
-</script>
+<h4>Our Sponsors:</h4>
+<div id="sponsor-strip" class="row">
+  <% @sponsors.each do |sponsor| %>
+    <a class="strip-image col-sm-2" href="<%= sponsor[:url] %>">
+      <%= image_tag sponsor[:image], class: "img-responsive" %>
+    </a>
+  <% end %>
+
+</div>
+
+
+<style>
+  .strip-image {
+    padding: 0px;
+    height: 100px;
+    width: 100px;
+  }
+
+    #sponsor-strip {
+
+    }
+</style>

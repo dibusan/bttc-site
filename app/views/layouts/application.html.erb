@@ -14,11 +14,28 @@
 
       <%= render 'layouts/navigation' %>
 
+      <div class="padded text-right">
+          <%= render 'layouts/social_media' %>
+      </div>
+
+      <div class="padded sidebarCollapseWrapper">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+          <div class="container-fluid">
+
+            <button type="button" id="sidebarCollapse" class="btn btn-info">
+              <i class="fa fas fa-align-left"></i>
+            </button>
+
+          </div>
+        </nav>
+      </div>
+
       <div id="content" class="container padded">
         <%= render 'layouts/messages' %>
         <%= render 'layouts/navbar_collapse' %>
         <%= yield %>
       </div>
+
 
     </div>
 
