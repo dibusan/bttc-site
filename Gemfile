@@ -42,3 +42,7 @@ end
 gem "cancancan", "~> 3.1"
 
 gem "sprockets-rails", "~> 3.2"
+
+gem "font-awesome-rails", "~> 4.7"
+
+gem "font-awesome-sass", "~> 5.12"
