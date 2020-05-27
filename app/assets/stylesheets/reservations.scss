@@ -12,10 +12,11 @@
 }
 
 .my-custom-scrollbar {
-  position: relative;
-  height: 500px;
-  overflow: auto;
+  //position: relative;
+  //height: 500px;
+  //overflow: auto;
 }
+
 .table-wrapper-scroll-y {
   display: block;
 }
@@ -34,10 +35,6 @@
 
 .many {
   background-color: rgba(46, 127, 24, 0.50);
-}
-
-.calendar-container {
-  margin-top: 100px;
 }
 
 th, td {

@@ -1,2 +1,20 @@
 <%# add navigation links to this file %>
+<li><%= link_to 'Home', root_path, class: 'nav-link'%></li>
 <li><%= link_to 'About', page_path('about') %></li>
+
+<li>
+  <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+    Coaches
+  </a>
+  <ul class="collapse list-unstyled" id="pageSubmenu">
+    <li>
+      <a href="#">Coach Terese</a>
+    </li>
+    <li>
+      <a href="#">Coach David</a>
+    </li>
+    <li>
+      <a href="#">Coach Lady</a>
+    </li>
+  </ul>
+</li>
