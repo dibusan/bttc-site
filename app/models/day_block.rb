@@ -2,10 +2,16 @@ class DayBlock < ApplicationRecord
   include ActionView::Helpers
 
   has_many :time_blocks
+  belongs_to :coach, class_name: 'User', foreign_key: 'coach_id', optional: true
 
-  def self.create_and_populate(date)
+  def self.create_and_populate(date, coach=nil)
     date = date.to_date.beginning_of_day
-    d_block = DayBlock.create!(schedule_date: date)
+
+    if coach.nil?
+      d_block = DayBlock.create!(schedule_date: date)
+    else
+      d_block = coach.day_blocks.create!(schedule_date: date)
+    end
 
     day_name = date.strftime('%A')
 

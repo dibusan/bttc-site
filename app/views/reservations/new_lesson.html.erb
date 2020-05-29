@@ -1,0 +1,22 @@
+<div class="container">
+
+  <h4>
+    Reserving for:
+    <strong>
+      <%= @timeblock.day_block.schedule_date.strftime('%A, %B %d')%>
+    </strong>
+    at
+    <strong>
+      <%= @timeblock.block_start_time.strftime('%l:%M %P') %>
+    </strong>
+  </h4>
+
+  <%= form_tag reservations_path, method: :post do |form| %>
+    <div>
+      <%= hidden_field_tag :time_block_id, @timeblock.id %>
+      <%= submit_tag 'Reserve' %>
+    </div>
+  <% end %>
+
+
+</div>

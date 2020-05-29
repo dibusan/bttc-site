@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   root to: 'visitors#home'
-  get 'reservations/calendar' => 'reservations#calendar', as: :calendar
+  get 'reservations/table' => 'reservations#table', as: :table_reservation
+  get 'reservations/lesson' => 'reservations#lesson', as: :lesson_reservation
 
   devise_for :users, skip: [:sessions]
 

@@ -10,12 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200527030420) do
+ActiveRecord::Schema.define(version: 20200528210334) do
 
   create_table "day_blocks", force: :cascade do |t|
     t.datetime "schedule_date"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
+    t.integer  "coach_id"
+    t.index ["coach_id"], name: "index_day_blocks_on_coach_id"
   end
 
   create_table "time_blocks", force: :cascade do |t|

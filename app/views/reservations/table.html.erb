@@ -5,7 +5,7 @@
       <div>
         <div class="col-sm-1">
           <%= button_to '<',
-                        calendar_path,
+                        table_reservation_path,
                         method: :get,
                         params: { start_date: @day_blocks.first.schedule_date- 7.days },
                         disabled: @day_blocks.first.schedule_date == DateTime.now.beginning_of_day
@@ -18,7 +18,7 @@
         </div>
         <div class="col-sm-1">
           <%= button_to '>',
-                        calendar_path,
+                        table_reservation_path,
                         method: :get,
                         params: { start_date: @day_blocks.first.schedule_date + 7.days }
           %>

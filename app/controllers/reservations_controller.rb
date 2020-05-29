@@ -1,7 +1,7 @@
 class ReservationsController < ApplicationController
   helper_method :color_by_availability, :fulltime, :compress_users
 
-  def calendar
+  def table
     start_date = params[:start_date] || DateTime.now.beginning_of_day
     start_date = start_date.to_date if start_date .instance_of? String
 
@@ -17,6 +17,23 @@ class ReservationsController < ApplicationController
     @day_blocks = DayBlock.where('schedule_date >= ?', start_date).limit(7)
   end
 
+  def lesson
+    start_date = params[:start_date] || DateTime.now.beginning_of_day
+    start_date = start_date.to_date if start_date .instance_of? String
+    coach = User.find(params[:coach_id])
+
+    day_count = coach.day_blocks.where('schedule_date >= ?', start_date).count
+
+    missing = 7 - day_count
+    need_date = DayBlock.last.nil? ? start_date : DayBlock.last.schedule_date + 1.day
+    while missing > 0
+      DayBlock.create_and_populate(need_date, coach)
+      need_date += 1.day
+      missing -= 1
+    end
+    @day_blocks = coach.day_blocks.where('schedule_date >= ?', start_date).limit(7)
+  end
+
   def new
     unless user_signed_in?
       redirect_to new_user_session_path
@@ -29,6 +46,20 @@ class ReservationsController < ApplicationController
 
     if @timeblock.availability <= 0
       flash[:error] = "This block is full."
+      redirect_to :back
+    end
+  end
+
+  def new_lesson
+    unless user_signed_in?
+      redirect_to new_user_session_path
+      return
+    end
+
+    @timeblock = TimeBlock.find(params[:time_block_id])
+
+    if @timeblock.availability <= 0
+      flash[:error] = "This block is not available."
       redirect_to :back
     end
   end
