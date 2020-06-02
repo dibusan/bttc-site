@@ -1,36 +1,35 @@
-<div class="container">
-  <div class="row calendar-container">
-    <table class=" table table-striped table-bordered">
+
+  <div class="row">
+    <table class="table table-striped table-bordered">
       <thead>
         <tr>
+          <th>Type</th>
           <th>Date</th>
           <th>Time</th>
           <th>Spots Reserved</th>
-          <th></th>
         </tr>
       </thead>
 
       <tbody>
-        <% @timeblocks.each do |t_block| %>
-          <% date_str = t_block.day_block.schedule_date.strftime('%A, %B %d') %>
-          <% time_str = t_block.block_start_time.strftime('%l:%M %P') %>
+        <% @reservations.each do |reservation| %>
           <tr>
+            <% date_str = reservation.scheduled_for.strftime('%A, %B %d') %>
+            <% time_str = reservation.scheduled_for.strftime('%l:%M %P') %>
+            <% type_str = reservation.type_lesson? ? "LESSON" : "PLAY" %>
+            <td><%= type_str %></td>
             <td><%= date_str %></td>
             <td><%= time_str %></td>
-            <td><%= compress_users(t_block.users)[current_user] %></td>
-            <td>
-              <%= form_tag reservations_path, method: :delete do |form| %>
-                <%= hidden_field_tag :time_block_id, t_block.id %>
-                <%= hidden_field_tag :user_id, current_user.id %>
-                <%= submit_tag 'Cancel', data: {
-                    confirm:
-                      "Cancelling Reservation for #{date_str} at #{time_str} ?"
-                } %>
-              <% end %>
-            </td>
+            <td><%= reservation.party_size || 1 %></td>
           </tr>
         <% end %>
       </tbody>
     </table>
   </div>
-</div>
+
+
+  <style>
+    .table-striped>tbody>tr:nth-child(odd)>td,
+    .table-striped>tbody>tr:nth-child(odd)>th {
+      background-color: #c9c9c9;
+    }
+  </style>

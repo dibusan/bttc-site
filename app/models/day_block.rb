@@ -4,8 +4,12 @@ class DayBlock < ApplicationRecord
   has_many :time_blocks
   belongs_to :coach, class_name: 'User', foreign_key: 'coach_id', optional: true
 
+  def read_create_week(start_date)
+
+  end
+
   def self.create_and_populate(date, coach=nil)
-    date = date.to_date.beginning_of_day
+    date = DateTime.parse(date).beginning_of_day
 
     if coach.nil?
       d_block = DayBlock.create!(schedule_date: date)

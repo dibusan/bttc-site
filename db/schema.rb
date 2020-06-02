@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200528210334) do
+ActiveRecord::Schema.define(version: 20200601025817) do
 
   create_table "day_blocks", force: :cascade do |t|
     t.datetime "schedule_date"
@@ -18,6 +18,20 @@ ActiveRecord::Schema.define(version: 20200528210334) do
     t.datetime "updated_at",    null: false
     t.integer  "coach_id"
     t.index ["coach_id"], name: "index_day_blocks_on_coach_id"
+  end
+
+  create_table "reservations", force: :cascade do |t|
+    t.integer  "coach_id"
+    t.integer  "user_id"
+    t.integer  "club_table"
+    t.integer  "party_size",    default: 1
+    t.boolean  "type_play?",    default: true
+    t.boolean  "type_lesson?"
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.datetime "scheduled_for"
+    t.index ["coach_id"], name: "index_reservations_on_coach_id"
+    t.index ["user_id"], name: "index_reservations_on_user_id"
   end
 
   create_table "time_blocks", force: :cascade do |t|

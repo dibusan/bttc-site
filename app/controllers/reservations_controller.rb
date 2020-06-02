@@ -1,37 +1,48 @@
 class ReservationsController < ApplicationController
-  helper_method :color_by_availability, :fulltime, :compress_users
+  helper_method :class_for, :compress_users
 
   def table
-    start_date = params[:start_date] || DateTime.now.beginning_of_day
-    start_date = start_date.to_date if start_date .instance_of? String
+    @start_date =
+      if params[:start_date].nil?
+        DateTime.now.beginning_of_day
+      else
+        DateTime.parse(params[:start_date])
+      end
 
-    day_count = DayBlock.where('schedule_date >= ?', start_date).count
+    @week_schedule =
+      Reservation.week_schedule(
+        start_date: @start_date,
+        user: current_user
+      )
 
-    missing = 7 - day_count
-    need_date = DayBlock.last.nil? ? start_date : DayBlock.last.schedule_date + 1.day
-    while missing > 0
-      DayBlock.create_and_populate need_date
-      need_date += 1.day
-      missing -= 1
+    if current_user.admin_role or current_user.coach_role
+      reservations_today = Reservation.today
+      @calendar_today = Hash.new
+      reservations_today.each do |res|
+        @calendar_today[res.scheduled_for.to_i] ||= []
+        @calendar_today[res.scheduled_for.to_i] << res
+      end
     end
-    @day_blocks = DayBlock.where('schedule_date >= ?', start_date).limit(7)
   end
 
   def lesson
-    start_date = params[:start_date] || DateTime.now.beginning_of_day
-    start_date = start_date.to_date if start_date .instance_of? String
-    coach = User.find(params[:coach_id])
+    @start_date =
+      if params[:start_date].nil?
+        DateTime.now.beginning_of_day
+      else
+        DateTime.parse(params[:start_date])
+      end
 
-    day_count = coach.day_blocks.where('schedule_date >= ?', start_date).count
+    @coach = User.find(params[:coach_id])
 
-    missing = 7 - day_count
-    need_date = DayBlock.last.nil? ? start_date : DayBlock.last.schedule_date + 1.day
-    while missing > 0
-      DayBlock.create_and_populate(need_date, coach)
-      need_date += 1.day
-      missing -= 1
-    end
-    @day_blocks = coach.day_blocks.where('schedule_date >= ?', start_date).limit(7)
+    @week_schedule =
+      Reservation.week_schedule(
+        start_date: @start_date,
+        type_lesson: true,
+        max_availability: 1,
+        coach_id: @coach.id,
+        user: current_user
+      )
   end
 
   def new
@@ -40,50 +51,39 @@ class ReservationsController < ApplicationController
       return
     end
 
-    @timeblock = TimeBlock.find(params[:time_block_id])
-
-    @total_reservation_options = [*1..[4, @timeblock.availability].min]
-
-    if @timeblock.availability <= 0
+    @date_time = DateTime.parse(params[:date_time])
+    max_availability = Rails.application.config.club_max_availability
+    count = Reservation.count_for_block(@date_time, @date_time + 2.hours)
+    @available_spots = max_availability - count
+    if max_availability - count <= 0
       flash[:error] = "This block is full."
       redirect_to :back
     end
   end
 
-  def new_lesson
+  def create
     unless user_signed_in?
       redirect_to new_user_session_path
       return
     end
 
-    @timeblock = TimeBlock.find(params[:time_block_id])
+    is_lesson = params[:type_lesson] == "true"
+    coach_id = params[:coach_id]
 
-    if @timeblock.availability <= 0
-      flash[:error] = "This block is not available."
-      redirect_to :back
-    end
-  end
+    date_time = params[:date_time]
+    club_table = params[:club_table]
+    party_size = params[:party_size] || 0
 
-  def create
-    @timeblock = TimeBlock.find(params[:time_block_id])
-    total_reservations = params[:total_reservations].to_i
+    current_user.reservations.create(
+      coach_id: coach_id,
+      scheduled_for: date_time,
+      club_table: club_table,
+      party_size: party_size,
+      type_lesson?: is_lesson,
+      type_play?: !is_lesson
+    )
 
-    @timeblock.availability -= total_reservations
-    total_reservations.times do
-      @timeblock.users.push(current_user)
-    end
-
-    if @timeblock.save!
-      ReservationMailer.new_reservation_email(
-        current_user, @timeblock, total_reservations
-      ).deliver_now
-
-      flash[:success] = "Reservation Created!"
-    else
-      flash.now[:error] = "Failed to make reservation."
-    end
-
-    redirect_to root_path
+    redirect_to reservations_path
   end
 
   def delete
@@ -103,11 +103,9 @@ class ReservationsController < ApplicationController
   end
 
   def index
-    @timeblocks = current_user
-                    .time_blocks
-                    .order(block_start_time: :asc)
-                    .uniq
+    @reservations = current_user.reservations.order(scheduled_for: :asc)
   end
+
   # --- Helpers ---
   protected
 
@@ -119,26 +117,21 @@ class ReservationsController < ApplicationController
     hash
   end
 
-  def fulltime(created_at)
-    created_at.to_s(:date)+" "+created_at.to_s(:time).gsub(/^0/,'').downcase
-  end
-
-  def color_by_availability(time_block)
-    if time_block.users.include? current_user
+  def class_for(count, type_lesson=false, belongs_to_current_user)
+    if belongs_to_current_user
       return "users-reserved"
     end
 
-    total_available = time_block.availability
-    # total_available = rand(total_available)
-    if total_available <= 0
+    if count <= 0
       # "C82538"
       "empty"
-    elsif total_available < 5
-      # "675E24"
-      "few"
-    else
+    elsif type_lesson or count >= 5
       # "2E7F18"
       "many"
+    else
+      # "675E24"
+      "few"
     end
   end
+
 end

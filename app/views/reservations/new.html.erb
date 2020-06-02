@@ -1,25 +1,29 @@
+<% total_reservation_options = [*1..[4, @available_spots].min] %>
+
 <div class="container">
 
   <h4>
     Reserving for:
     <strong>
-      <%= @timeblock.day_block.schedule_date.strftime('%A, %B %d')%>
+      <%= @date_time.strftime('%A, %B %d')%>
     </strong>
     at
     <strong>
-      <%= @timeblock.block_start_time.strftime('%l:%M %P') %>
+      <%= @date_time.strftime('%l:%M %P') %>
     </strong>
   </h4>
 
   <h4>
-    Available Spots: <%= @timeblock.availability %>
+    Available Spots: <%= @available_spots%>
   </h4>
 
   <%= form_tag reservations_path, method: :post do |form| %>
     <div>
       <strong>Number of People: </strong>
-      <%= select_tag :total_reservations, options_for_select(@total_reservation_options) %><br>
-      <%= hidden_field_tag :time_block_id, @timeblock.id %>
+      <%= select_tag :party_size, options_for_select(total_reservation_options) %><br>
+      <%= hidden_field_tag :date_time, @date_time %>
+      <%= hidden_field_tag :club_table, 20 %>
+      <%= hidden_field_tag :type_lesson, false %>
       <%= submit_tag 'Reserve' %>
     </div>
   <% end %>
