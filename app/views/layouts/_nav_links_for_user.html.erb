@@ -1,8 +1,27 @@
 
 <% if user_signed_in? %>
-  <li><%= link_to 'Settings', edit_user_registration_path %></li>
-  <li><%= link_to 'Profile', reservations_path %></li>
-  <li><%= link_to 'Sign out', destroy_user_session_path, :method=>'delete' %></li>
+  <li><%= link_to 'Profile', profile_path %></li>
+
+  <li><%= link_to 'Reserve Table', table_reservation_path %></li>
+
+  <li>
+    <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+      Reserve Lesson
+    </a>
+    <ul class="collapse list-unstyled" id="pageSubmenu">
+      <li>
+        <%= link_to 'Coach Terese', lesson_reservation_path(coach_id: 5) %>
+      </li>
+      <li>
+        <%= link_to 'Coach Lady', lesson_reservation_path(coach_id: 6) %>
+      </li>
+      <li>
+        <%= link_to 'Coach David', lesson_reservation_path(coach_id: 7) %>
+      </li>
+    </ul>
+  </li>
+
+<!--  <li><%#= link_to 'Settings', edit_user_registration_path %></li>-->
 <% else %>
   <li><%= link_to 'Sign in', new_user_session_path %></li>
   <li><%= link_to 'Sign up', new_user_registration_path %></li>

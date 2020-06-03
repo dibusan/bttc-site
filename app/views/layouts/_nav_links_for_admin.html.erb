@@ -1,4 +1,21 @@
 <% if user_signed_in? and current_user.admin_role? %>
   <li><%= link_to 'Users', users_path %></li>
   <li><%= link_to 'Dashboard', admin_dashboard_path(day_id: current_dayblock_id) %></li>
+
+  <li>
+    <a href="#managementSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+      Management
+    </a>
+    <ul class="collapse list-unstyled" id="managementSubmenu">
+      <li>
+        <%= link_to 'Users', users_path %>
+      </li>
+
+      <li>
+        <%= link_to 'Club', users_path %>
+      </li>
+    </ul>
+  </li>
+
+
 <% end %>

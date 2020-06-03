@@ -13,6 +13,8 @@ Rails.application.routes.draw do
   end
 
   resources :users
+  get 'profile' => 'users#profile'
+  post 'membership' => 'users#membership'
 
   resources :reservations, only: [:index, :new, :create]
 

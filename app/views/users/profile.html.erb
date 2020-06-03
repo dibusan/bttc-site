@@ -1,0 +1,40 @@
+<div class="row">
+  <div class="col-sm-6">
+    <h3>User</h3>
+    <p><strong>Name:</strong> <%= @user.name if @user.name %></p>
+    <p><strong>Email:</strong> <%= @user.email if @user.email %></p>
+    <p><strong>Account Created:</strong> <%= @user.created_at.strftime('%A, %B %d') %></p>
+    <p><strong>Member:</strong> <%= @user.member? ? 'YES' : 'NO'%></p>
+
+  </div>
+  <div class="col-sm-6">
+    <% if @user.member? %>
+      <h3>Membership</h3>
+      <p><strong>Type:</strong> <%= @user.membership_type %></p>
+      <p><strong>Start Date:</strong> <%= @user.membership_start_date.strftime('%A, %B %d') %></p>
+      <p><strong>End Date:</strong> <%= @user.membership_end_date.strftime('%A, %B %d') %></p>
+      <p><strong>Paid:</strong> $<%= @user.total_paid %></p>
+    <% else %>
+      <h3>Become a Member</h3>
+      <%= form_tag membership_path, method: :post do |form| %>
+        <div>
+          Type: <%= select_tag :type, options_for_select(User.membership_types) %><br>
+          <%= hidden_field_tag :start_date, DateTime.now %>
+          <br>
+          <%= submit_tag 'Reserve' %>
+        </div>
+
+        <br>
+
+        <div>
+          <h5>Prices:</h5>
+          <ul>
+            <li>1 Month (monthly): <strong>$74</strong></li>
+            <li>3 Months (quarterly): <strong>$190</strong></li>
+            <li>12 Months (yearly): <strong>$720</strong></li>
+          </ul>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>

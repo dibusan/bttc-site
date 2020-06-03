@@ -1,9 +1,8 @@
 class ReservationMailer < ApplicationMailer
-  def new_reservation_email(user, time_block, total_reservations)
-    @time_block = time_block
-    @total_guests = total_reservations
+  def new_reservation_email(user, reservation)
+    @reservation = reservation
     @user = user
-    # Rails.logger.warn "Sending email to #{current_user.email}"
+    Rails.logger.warn "Sending email to #{@user.email}"
     mail(to: @user.email, subject: "BTTC reservation created!")
   end
 end

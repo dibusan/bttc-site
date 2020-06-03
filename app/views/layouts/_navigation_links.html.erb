@@ -1,23 +1,5 @@
 <%# add navigation links to this file %>
-<li><%= link_to 'Home', root_path, class: 'nav-link'%></li>
-<li><%= link_to 'About', page_path('about') %></li>
+
 <li><%= link_to 'Junior Program', page_path('junior_program') %></li>
-<li><%= link_to 'Reserve Table', table_reservation_path %></li>
+<li><%= link_to 'About', page_path('about') %></li>
 
-
-<li>
-  <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-    Reserve Lesson
-  </a>
-  <ul class="collapse list-unstyled" id="pageSubmenu">
-    <li>
-      <%= link_to 'Coach Terese', lesson_reservation_path(coach_id: 5) %>
-    </li>
-    <li>
-      <%= link_to 'Coach Lady', lesson_reservation_path(coach_id: 6) %>
-    </li>
-    <li>
-      <%= link_to 'Coach David', lesson_reservation_path(coach_id: 7) %>
-    </li>
-  </ul>
-</li>

@@ -1,3 +1,12 @@
 <h3>User</h3>
 <p>Name: <%= @user.name if @user.name %></p>
 <p>Email: <%= @user.email if @user.email %></p>
+<p>Account Created: <%= @user.created_at.strftime('%A, %B %d') %></p>
+<p>Member: <%= @user.member? ? 'YES' : 'NO'%></p>
+
+<% if @user.member? %>
+  <p>Membership Type: <%= @user.membership_type %></p>
+  <p>Membership Start Date: <%= @user.membership_start_date.strftime('%A, %B %d') %></p>
+  <p>Membership End Date: <%= @user.membership_end_date.strftime('%A, %B %d') %></p>
+  <p>Membership Total: $<%= @user.total_paid %></p>
+<% end %>

@@ -6,17 +6,17 @@
 <body>
 <p>
   New reservation created for <%= @user.name %>
-  <% if @total_guests > 1 %>
-    and <%= @total_guests - 1 %> guests
+  <% if @reservation.party_size > 1 %>
+    and <%= @reservation.party_size - 1 %> guests
   <% end %>
   !</p>
 <p>
   Reservation details<br>
   --------------------------
 </p>
-<p>Date: <%= TimeBlock.last.block_start_time.strftime('%A, %B %d') %></p>
-<p>Time: <%= TimeBlock.last.block_start_time.strftime('%l:%M %P') %></p>
-<p>Party Size: <%= @total_guests %></p>
+<p>Date: <%= @reservation.scheduled_for.strftime('%A, %B %d') %></p>
+<p>Time: <%= @reservation.scheduled_for.strftime('%l:%M %P') %></p>
+<p>Party Size: <%= @reservation.party_size %></p>
 
 <p>
   Message:<br>

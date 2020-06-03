@@ -8,6 +8,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
+  enum membership_type: [:monthly, :quarterly, :yearly]
+
   def week_reservations(start_date)
     end_date = start_date + 7.days
     reservations = self.reservations

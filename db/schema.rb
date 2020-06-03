@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200601025817) do
+ActiveRecord::Schema.define(version: 20200603022315) do
 
   create_table "day_blocks", force: :cascade do |t|
     t.datetime "schedule_date"
@@ -67,6 +67,11 @@ ActiveRecord::Schema.define(version: 20200601025817) do
     t.boolean  "admin_role",             default: false
     t.boolean  "user_role",              default: true
     t.boolean  "coach_role",             default: false
+    t.boolean  "member?",                default: false
+    t.integer  "membership_type",        default: 0
+    t.datetime "membership_start_date"
+    t.datetime "membership_end_date"
+    t.integer  "total_paid"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

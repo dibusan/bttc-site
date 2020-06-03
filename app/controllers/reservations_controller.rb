@@ -74,7 +74,7 @@ class ReservationsController < ApplicationController
     club_table = params[:club_table]
     party_size = params[:party_size] || 0
 
-    current_user.reservations.create(
+    new_reservation = current_user.reservations.create!(
       coach_id: coach_id,
       scheduled_for: date_time,
       club_table: club_table,
@@ -82,6 +82,13 @@ class ReservationsController < ApplicationController
       type_lesson?: is_lesson,
       type_play?: !is_lesson
     )
+
+    if new_reservation
+      ReservationMailer.new_reservation_email(current_user, new_reservation).deliver_later
+      flash[:success] = "Reservation Created."
+    else
+      flash[:error] = "Failed to make reservation."
+    end
 
     redirect_to reservations_path
   end

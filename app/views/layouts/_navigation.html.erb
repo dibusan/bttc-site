@@ -20,10 +20,21 @@
   <ul class="list-unstyled components">
     <p>Welcome <%= current_user.name if user_signed_in? %></p>
 
-    <%= render 'layouts/navigation_links' %>
+    <li><%= link_to 'Home', root_path, class: 'nav-link'%></li>
+
+    <%= render 'layouts/nav_links_for_admin' %>
+
+    <li class="divider"></li>
 
     <%= render 'layouts/nav_links_for_user' %>
 
-    <%= render 'layouts/nav_links_for_admin' %>
+    <li class="divider"></li>
+
+    <%= render 'layouts/navigation_links' %>
+
+    <% if user_signed_in? %>
+      <li class="divider"></li>
+      <li><%= link_to 'Sign out', destroy_user_session_path, :method=>'delete' %></li>
+    <% end %>
   </ul>
 </nav>
