@@ -1,0 +1,35 @@
+%p#notice= notice
+
+%h1= @product.name
+%table
+  %tbody
+    %tr
+      %th Price:
+      %td
+        $ #{@product.price}
+    %tr
+      %th Brand New:
+      %td= @product.used? ? "NO" : "YES"
+    %tr
+      %th Category:
+      %td= @product.product_category
+    %tr
+      %th In Store:
+      %td= @product.count
+
+
+- if signed_in?
+  = link_to "", class: "button",
+                data: { target: @cart_action,
+                        addUrl: add_to_cart_path(@product),
+                        removeUrl: remove_from_cart_path(@product)} do
+    %i.fi-shopping-cart
+    %span= @cart_action
+    Cart
+
+%br
+
+- if user_signed_in? and current_user.admin_role
+  = link_to 'Edit', edit_product_path(@product)
+  |
+= link_to 'Back', products_path

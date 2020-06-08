@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200603022315) do
+ActiveRecord::Schema.define(version: 20200604015247) do
 
   create_table "day_blocks", force: :cascade do |t|
     t.datetime "schedule_date"
@@ -18,6 +18,33 @@ ActiveRecord::Schema.define(version: 20200603022315) do
     t.datetime "updated_at",    null: false
     t.integer  "coach_id"
     t.index ["coach_id"], name: "index_day_blocks_on_coach_id"
+  end
+
+  create_table "products", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "price"
+    t.integer  "product_category"
+    t.boolean  "used?",            default: false
+    t.datetime "released_date"
+    t.integer  "msrp"
+    t.integer  "age"
+    t.integer  "count"
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+    t.text     "image_url"
+  end
+
+  create_table "purchases", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "product_id"
+    t.integer  "paid"
+    t.boolean  "fulfilled?",  default: false
+    t.date     "fulfillment"
+    t.text     "notes"
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.index ["product_id"], name: "index_purchases_on_product_id"
+    t.index ["user_id"], name: "index_purchases_on_user_id"
   end
 
   create_table "reservations", force: :cascade do |t|

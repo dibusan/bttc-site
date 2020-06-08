@@ -23,4 +23,8 @@ class User < ApplicationRecord
       count[reserv.scheduled_for] = reserv.party_size
     end
   end
+
+  def cart_count
+    $redis.scard "cart#{id}"
+  end
 end

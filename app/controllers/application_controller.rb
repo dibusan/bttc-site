@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_action :configure_permitted_parameters, if: :devise_controller?
-  helper_method :current_dayblock_id, :club_hours_on, :club_reservation_time
+  helper_method :current_dayblock_id, :club_hours_on, :club_reservation_time, :current_user_cart
 
   def after_sign_in_path_for(resource)
     root_path
@@ -25,5 +25,9 @@ class ApplicationController < ActionController::Base
 
   def club_reservation_time
     Rails.application.config.club_table_reserve_duration
+  end
+
+  def current_user_cart
+    "cart#{current_user.id}"
   end
 end

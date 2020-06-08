@@ -1,0 +1,22 @@
+%h1 Cart
+
+%h5
+  Total Items:
+  = @cart_products.count
+
+- @cart_products.each do |product|
+  .card
+    %h3
+      = product.name
+
+    %p
+      New
+      %strong
+        = product.used? ? "NO" : "YES"
+
+    %p
+      Category
+      %strong
+        = product.product_category
+
+    = link_to "Remove", remove_from_cart_path(product), method: :put

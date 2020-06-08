@@ -21,6 +21,7 @@
     <p>Welcome <%= current_user.name if user_signed_in? %></p>
 
     <li><%= link_to 'Home', root_path, class: 'nav-link'%></li>
+    <li><%= link_to 'Shop', products_path, class: 'nav-link'%></li>
 
     <%= render 'layouts/nav_links_for_admin' %>
 

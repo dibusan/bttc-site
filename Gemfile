@@ -46,3 +46,9 @@ gem "sprockets-rails", "~> 3.2"
 gem "font-awesome-rails", "~> 4.7"
 
 gem "font-awesome-sass", "~> 5.12"
+
+gem "haml", "~> 5.1"
+
+gem 'redis', '~> 3.0.1'
+
+gem 'hiredis', '~> 0.6.1'

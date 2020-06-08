@@ -1,0 +1,50 @@
+<%= form_for(product) do |f| %>
+  <% if product.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(product.errors.count, "error") %> prohibited this product from being saved:</h2>
+
+      <ul>
+      <% product.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <p>
+    <strong>Name:</strong> <%= f.text_field :name %>
+  </p>
+
+  <p>
+    <strong>Price:</strong> $ <%= f.text_field :price %>
+  </p>
+
+  <p>
+<!--    <strong>Category:</strong> <%#= f.select :product_category, Product.product_categories %>-->
+    <strong>Category:</strong>
+    <%= f.select :product_category, Product.product_categories.map { |k, v| [k.humanize, v] } %>
+
+  </p>
+
+  <p>
+    <strong>Item State:</strong>
+    &nbsp;
+    <%= f.radio_button :used?, false, :checked => true %>
+    <%= f.label :used?, "New", :value => "false"  %>
+    &nbsp;
+    <%= f.radio_button :used?, true %>
+    <%= f.label :used?, "Used", :value => "true" %>
+  </p>
+
+  <p>
+    <strong>MSRP:</strong> $ <%= f.text_field :msrp %>
+  </p>
+
+  <p>
+    <strong>Age:</strong> <%= f.text_field :age %>
+  </p>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
