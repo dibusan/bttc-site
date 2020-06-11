@@ -1,4 +1,8 @@
 class Purchase < ApplicationRecord
   belongs_to :user
-  belongs_to :product
+  has_and_belongs_to_many :products
+
+  def price
+    (total/100.0).to_f
+  end
 end

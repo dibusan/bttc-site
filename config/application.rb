@@ -8,6 +8,7 @@ Bundler.require(*Rails.groups)
 
 module RailsDevise
   class Application < Rails::Application
+    Spring.watch "app/services/**"
 
     config.generators do |g|
       g.test_framework :rspec,

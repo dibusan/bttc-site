@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200604015247) do
+ActiveRecord::Schema.define(version: 20200610152227) do
 
   create_table "day_blocks", force: :cascade do |t|
     t.datetime "schedule_date"
@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(version: 20200604015247) do
 
   create_table "products", force: :cascade do |t|
     t.string   "name"
-    t.integer  "price"
+    t.integer  "price_in_cents"
     t.integer  "product_category"
     t.boolean  "used?",            default: false
     t.datetime "released_date"
@@ -34,16 +34,23 @@ ActiveRecord::Schema.define(version: 20200604015247) do
     t.text     "image_url"
   end
 
+  create_table "products_purchases", id: false, force: :cascade do |t|
+    t.integer "product_id",  null: false
+    t.integer "purchase_id", null: false
+    t.index ["product_id", "purchase_id"], name: "index_products_purchases_on_product_id_and_purchase_id"
+    t.index ["purchase_id", "product_id"], name: "index_products_purchases_on_purchase_id_and_product_id"
+  end
+
   create_table "purchases", force: :cascade do |t|
     t.integer  "user_id"
-    t.integer  "product_id"
     t.integer  "paid"
     t.boolean  "fulfilled?",  default: false
     t.date     "fulfillment"
     t.text     "notes"
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
-    t.index ["product_id"], name: "index_purchases_on_product_id"
+    t.integer  "total"
+    t.boolean  "delivery?",   default: false
     t.index ["user_id"], name: "index_purchases_on_user_id"
   end
 
@@ -99,6 +106,7 @@ ActiveRecord::Schema.define(version: 20200604015247) do
     t.datetime "membership_start_date"
     t.datetime "membership_end_date"
     t.integer  "total_paid"
+    t.string   "stripe_token"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

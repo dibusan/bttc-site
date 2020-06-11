@@ -1,12 +1,21 @@
 Rails.application.routes.draw do
+  get 'charges/new'
+
+  get 'charges/create'
+
   get 'carts/show'
 
   root to: 'visitors#home'
+
+  # ----------------- Charges ------------------
+  resources :charges, only: [:new, :create]
+  # --------------------------------------------
 
   # ------------------ Cart --------------------
   resource :cart, only: [:show] do
     put 'add/:product_id', to: 'carts#add', as: :add_to
     put 'remove/:product_id', to: 'carts#remove', as: :remove_from
+    get 'clear', to: 'carts#clear', as: :clear
   end
   # --------------------------------------------
 

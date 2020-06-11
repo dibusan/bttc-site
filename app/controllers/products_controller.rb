@@ -73,8 +73,9 @@ class ProductsController < ApplicationController
     def product_params
       raw = params
         .fetch(:product, {})
-        .permit(:name, :price, :product_category, :used?, :released_date, :msrp, :age, :count)
+        .permit(:name, :price_in_cents, :product_category, :used?, :released_date, :msrp, :age, :count)
       raw[:product_category] = raw[:product_category].to_i
+      raw[:price_in_cents] = (raw[:price_in_cents].to_f * 100).to_i
       raw
     end
 end

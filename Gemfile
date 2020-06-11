@@ -52,3 +52,5 @@ gem "haml", "~> 5.1"
 gem 'redis', '~> 3.0.1'
 
 gem 'hiredis', '~> 0.6.1'
+
+gem "stripe", "~> 5.22"
